@@ -11,11 +11,11 @@ LAYER2_OUT			 equ $123B
 CLS_INDEX equ $ff
 
 bordera macro
-          out ($fe),a
+;          out ($fe),a
         endm
 
 border macro
-           ld a,\0
+;           ld a,\0
            bordera
         endm
 

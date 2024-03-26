@@ -24,7 +24,60 @@ columns_init:
     Nextreg $71,0
     Nextreg $72,0
 
+
+    ld hl, sin
+    ld bc, +(sin_end-sin)/2
+
+.lp:
+    push bc
+
+    ld e,(hl)
+    inc hl
+    ld d,(hl)
+    dec hl
+    push hl
+    ld hl, 14
+    call mul_hl_de
+    ld e,l
+    ld d,h
+    pop hl
+
+    ld b,4
+    bsrl de,b
+
+    ld (hl),e
+    inc hl
+    ld (hl),d
+    inc hl
+
+    pop bc
+    dec bc
+    ld a,b
+    or c
+    jr nz,.lp
     ret
+
+
+// not signed
+mul_hl_de:       ; (uint16)HL = (uint16)HL x (uint16)DE
+    ld      c,e
+    ; HxD xh*yh is not relevant for 16b result at all
+    ld      e,l
+    mul             ; LxD xl*yh
+    ld      a,e     ; part of r:8:15
+    ld      e,c
+    ld      d,h
+    mul             ; HxC xh*yl
+    add     a,e     ; second part of r:8:15
+    ld      e,c
+    ld      d,l
+    mul             ; LxC xl*yl (E = r:0:7)
+    add     a,d     ; third/last part of r:8:15
+    ; result in AE (16 lower bits), put it to HL
+    ld      h,a
+    ld      l,e
+    ret             ; =4+4+8+4+4+4+8+4+4+4+8+4+4+4+10 = 78T
+
 
 
 columns_update:
