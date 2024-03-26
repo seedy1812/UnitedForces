@@ -3,8 +3,6 @@
 MMU6: equ $56
 MMU7: equ $57
 
-CLS_INDEX equ $ff
-
 columns_init:
     nextreg $43, %00010001
     nextreg PAL_INDEX,0

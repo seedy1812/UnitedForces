@@ -71,7 +71,6 @@ init_vbl:
     nextreg $ce,0            ; ct 0 no interrupt dma
 
     im 2
-my_break
 
     ei
     nop

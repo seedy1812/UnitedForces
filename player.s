@@ -8,6 +8,8 @@ DMA_PORT    	     equ $6b ;//: zxnDMA
 
 LAYER2_OUT			 equ $123B
 
+CLS_INDEX equ $ff
+
 bordera macro
           out ($fe),a
         endm
@@ -32,9 +34,6 @@ MY_BREAK	macro
 include "irq.s"
 
 start:
-	ld hl,0x77d
-
-
 ;; set the stack pointer
 	ld sp , StackStart
 
